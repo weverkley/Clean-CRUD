@@ -1,5 +1,5 @@
 # Clean-CRUD
-A sample full-stack application with a backend __ASP.NET Core__ project and a frontend __Angular__ project.
+A sample C# full-stack application with a backend __ASP.NET Core__ project and a frontend __Angular__ project.
 
 ## Technology Stack
   -	ASP.NET Core -v8
