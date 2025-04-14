@@ -1,0 +1,27 @@
+@Backend.Api_HostAddress = http://localhost:5165
+@ClienteId = http://localhost:5165
+
+GET {{Backend.Api_HostAddress}}/cliente
+Accept: application/json
+
+###
+
+GET {{Backend.Api_HostAddress}}/cliente/{{ClienteId}}
+Accept: application/json
+
+###
+
+POST {{Backend.Api_HostAddress}}/cliente
+Accept: application/json
+Headers: {
+    Content-Type: application/json
+}
+Body: {
+  "nome": "string",
+  "cpfCnpj": "string",
+  "dataNascimento": "2023-10-01T00:00:00Z",
+  "email": "string",
+  "telefone": "string"
+}
+
+###
