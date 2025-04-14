@@ -1,0 +1,66 @@
+services:
+  api:
+    container_name: api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    build:
+      context: ./backend
+      dockerfile: ./Backend.Api/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=postgres_db_container;Port=5432;Database=StudentManagementDB;Username=postgres;Password=12345678;
+      - ASPNETCORE_URLS=http://+:5000
+    networks:
+      - backend_network
+    command: ["dotnet", "ef", "database update"]
+
+  frontend:
+    container_name: frontend
+    ports:
+      - "3000:80"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - backend_network
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      PGDATA: /data/postgres
+    volumes:
+       - crud_postgres_data:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend_network
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
+      PGADMIN_DEFAULT_PASSWORD: 12345678
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - crud_pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres
+    networks:
+      - backend_network
+    restart: unless-stopped
+    
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  crud_postgres_data:
+  crud_pgadmin_data:
