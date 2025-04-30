@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Backend.Infrastructure.Configurations;
 using Backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +27,9 @@ namespace Backend.Infrastructure.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            var assembly = typeof(DataContext).Assembly;
 
-            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
-            modelBuilder.ApplyConfiguration(new AddressConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
